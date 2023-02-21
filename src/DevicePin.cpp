@@ -20,7 +20,8 @@ void ARDUINO_ISR_ATTR isr(void* arg)
 }
 
 
-/** The constructor attaches the interrupt.
+/** The constructor starts the task but does not attach the interrupt;
+ *  this should be done in the the derived class's begin() function
  *  @param pController: VehicleController instance passed to Device
  *  @param pin: GPIO pin for the interrupt
  *  @param debounce: minimum millis between two interrupt yields
@@ -39,8 +40,8 @@ DevicePin::DevicePin(VehicleController* pController, uint8_t pin, int debounce, 
  */
 DevicePin::~DevicePin()
 {
-  detachInterrupt(this->m_pin);
   if(m_taskHandleOnPinInterrupt != NULL){
+    detachInterrupt(this->m_pin);
     vTaskDelete(m_taskHandleOnPinInterrupt);
     m_taskHandleOnPinInterrupt = NULL;
   }
