@@ -19,7 +19,7 @@ Pedal::Pedal(VehicleController* vc, uint8_t pin, int readInterval, ParameterDoub
   // Good guidance through ADC on ESP32 and Arduino:
   // https://deepbluembedded.com/esp32-adc-tutorial-read-analog-voltage-arduino/
   // Attach the pin to ADC and clear previous settings
-  //adcAttachPin(pin);
+  adcAttachPin(pin);
   // Set the pin's suggested voltage range (11 ~ full range 0-3.3V)
   analogSetPinAttenuation(pin, ADC_11db);
   // Set the ADC resolution in bits (9=511 to 12=4095)
@@ -41,7 +41,10 @@ Pedal::~Pedal()
  */
 void Pedal::begin()
 {
+  // Attach the interrupt on the pin given in the constructor
+  this->attachISR();
   this->startTasks(4096, 8192);
+  Serial.println("===== Pedal Begin =====\n");
 }
 
 

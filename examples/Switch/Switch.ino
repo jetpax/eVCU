@@ -9,7 +9,15 @@
 #include <Switch.h>
 
 
-#define ISR_PIN GPIO_NUM_32
+#define ISR_PIN GPIO_NUM_0
+
+#include "Freenove_WS2812_Lib_for_ESP32.h"
+
+#define LEDS_COUNT  1
+#define LEDS_PIN	48
+#define CHANNEL		0
+
+Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL, TYPE_GRB);
 
 
 // Instantiate the VehicleController and the vehicle's Parameters
@@ -56,26 +64,35 @@ private:
 
 
 // Instantiate Devices
-Switch devOne(&vc, ISR_PIN, INPUT_PULLUP, &paramSwitch, 300);
+Switch devOne(&vc, ISR_PIN, INPUT_PULLUP, &paramSwitch, 30);
 DeviceListener devTwo(&vc);
 
 
 void setup() {
   // Preparations
-  Serial.begin(9600); // Start the Serial monitor
+  Serial.begin(115200); // Start the Serial monitor
   
-  Serial.println("===== Starting up the devices =====\n");
+  Serial.println("\n===== Starting up the devices =====\n");
   
   devTwo.begin();
   devOne.begin();
   
-  Serial.println("===== Starting the test =====\n");
+  Serial.println("\n===== Starting the test =====\n");
   Serial.println("Device two reacts to the input observation of Device one \n"+
                  String("and changes a Parameter, to which Device one reacts.\n"));
+  strip.begin();
+  strip.setBrightness(20);  
 
   while(1) { // don't leave the scope where the Device instances live
-    vTaskDelay(100);
+    for (int j = 0; j < 255; j += 2) {
+      for (int i = 0; i < LEDS_COUNT; i++) {
+        strip.setLedColorData(i, strip.Wheel((i * 256 / LEDS_COUNT + j) & 255));
+      }
+      strip.show();
+      vTaskDelay(10);
+    }  
   }
+
 }
 
 void loop()
