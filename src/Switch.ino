@@ -11,13 +11,13 @@
 
 #define ISR_PIN GPIO_NUM_0
 
-#include "Freenove_WS2812_Lib_for_ESP32.h"
+#include "WS2812_RMT.h"
 
 #define LEDS_COUNT  1
 #define LEDS_PIN	48
 #define CHANNEL		0
 
-Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL, TYPE_GRB);
+WS2812_RMT strip = WS2812_RMT(LEDS_COUNT, LEDS_PIN, CHANNEL, TYPE_GRB);
 
 
 // Instantiate the VehicleController and the vehicle's Parameters
