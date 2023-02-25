@@ -16,8 +16,8 @@
  *  @param speed        bus speed 125, 250, 500 or 1000 kbps
  */
 struct configCAN_t {
-  gpio_num_t txPin=GPIO_NUM_21;
-  gpio_num_t rxPin=GPIO_NUM_22;
+  gpio_num_t txPin=GPIO_NUM_46;
+  gpio_num_t rxPin=GPIO_NUM_47;
   twai_mode_t mode=TWAI_MODE_NORMAL;
   uint32_t speed=500000;
 };
