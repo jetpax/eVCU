@@ -17,7 +17,7 @@
  */
 struct configCAN_t {
   gpio_num_t txPin=GPIO_NUM_47;
-  gpio_num_t rxPin=GPIO_NUM_45;
+  gpio_num_t rxPin=GPIO_NUM_48;
   twai_mode_t mode=TWAI_MODE_NORMAL;
   uint32_t speed=500000;
 };
