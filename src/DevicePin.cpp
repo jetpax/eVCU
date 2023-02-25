@@ -30,7 +30,9 @@ void ARDUINO_ISR_ATTR isr(void* arg)
 DevicePin::DevicePin(VehicleController* pController, uint8_t pin, int debounce, int inputMode, int interruptMode)
   : Device(pController), m_taskHandleOnPinInterrupt(NULL),
     m_pin(pin), m_debounce(debounce), m_inputMode(inputMode), m_interruptMode(interruptMode)
-{}
+{  
+  pinMode(this->m_pin, m_inputMode);
+}
 
 
 /** The destructor deletes tasks and detaches the interrupt.
@@ -51,7 +53,6 @@ DevicePin::~DevicePin()
  */
 void DevicePin::attachISR()
 {
-  pinMode(this->m_pin, m_inputMode);
   attachInterruptArg(this->m_pin, isr, &m_taskHandleOnPinInterrupt, m_interruptMode);
 }
 
